@@ -163,8 +163,10 @@ func getIndex(response http.ResponseWriter, request *http.Request) {
 	err := json.NewDecoder(request.Body).Decode(&credentials)
 	if err != nil {
 		http.Error(response, err.Error(), http.StatusBadRequest)
+		return
 	} else if credentials.Username == "" {
 		http.Error(response, "", http.StatusBadRequest)
+		return
 	} else {
 		for i:=0; i < len(globalCredentials); i++ {
 			if globalCredentials[i].Username == credentials.Username && globalCredentials[i].Password == credentials.Password {
