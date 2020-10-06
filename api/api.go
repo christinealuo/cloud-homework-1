@@ -277,8 +277,10 @@ func deleteUser(response http.ResponseWriter, request *http.Request) {
 	err := json.NewDecoder(request.Body).Decode(&credentials)
 	if err != nil {
 		http.Error(response, err.Error(), http.StatusBadRequest)
+		return
 	} else if credentials.Username == "" || credentials.Password == "" {
 		http.Error(response, "", http.StatusBadRequest)
+		return
 	} else {
 		toDelete := -1
 		for i := 0; i < len(globalCredentials); i++ {
@@ -291,6 +293,7 @@ func deleteUser(response http.ResponseWriter, request *http.Request) {
 
 		if toDelete != -1 {
 			globalCredentials = append(globalCredentials[:toDelete], globalCredentials[toDelete + 1:]...)
+			return
 		} else {
 			http.Error(response, "", http.StatusBadRequest)
 		}
