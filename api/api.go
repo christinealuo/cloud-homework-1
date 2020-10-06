@@ -3,6 +3,8 @@ package api
 import (
 	"net/http"
 	"github.com/gorilla/mux"
+	"fmt"
+	"encoding/json"
 )
 
 
@@ -10,7 +12,7 @@ import (
 //See credentials.go
 
 /*YOUR CODE HERE*/
-
+var globalCredentials []Credentials = []Credentials{}
 
 
 func RegisterRoutes(router *mux.Router) error {
@@ -46,6 +48,12 @@ func getCookie(response http.ResponseWriter, request *http.Request) {
 	*/
 
 	/*YOUR CODE HERE*/
+	cookie, err := request.Cookie("access_token")
+	if err != nil {
+		fmt.Fprintf(response, "")
+	} else {
+		fmt.Fprintf(response, cookie.Value)
+	}
 }
 
 func getQuery(response http.ResponseWriter, request *http.Request) {
@@ -56,6 +64,12 @@ func getQuery(response http.ResponseWriter, request *http.Request) {
 	*/
 
 	/*YOUR CODE HERE*/
+	userID := request.URL.Query().Get("userID")
+	if userID != "" {
+		fmt.Fprintf(response, userID)
+	} else {
+		fmt.Fprintf(response, "")
+	}
 }
 
 func getJSON(response http.ResponseWriter, request *http.Request) {
@@ -76,7 +90,14 @@ func getJSON(response http.ResponseWriter, request *http.Request) {
 	*/
 
 	/*YOUR CODE HERE*/
-	
+	credentials := Credentials{}
+	err := json.NewDecoder(request.Body).Decode(&credentials)
+	if err != nil {
+		http.Error(response, err.Error(), http.StatusBadRequest)
+	} else {
+		fmt.Fprintf(response, credentials.Username)
+		fmt.Fprintf(response, credentials.Password)
+	}
 }
 
 func signup(response http.ResponseWriter, request *http.Request) {
@@ -97,6 +118,13 @@ func signup(response http.ResponseWriter, request *http.Request) {
 	*/
 
 	/*YOUR CODE HERE*/
+	credentials := Credentials{}
+	err := json.NewDecoder(request.Body).Decode(&credentials)
+	if err != nil {
+		http.Error(response, err.Error(), http.StatusBadRequest)
+	} else {
+		globalCredentials = append(globalCredentials, credentials)
+	}
 }
 
 func getIndex(response http.ResponseWriter, request *http.Request) {
@@ -119,6 +147,13 @@ func getIndex(response http.ResponseWriter, request *http.Request) {
 	*/
 
 	/*YOUR CODE HERE*/
+	credentials := Credentials{}
+	err := json.NewDecoder(request.Body).Decode(&credentials)
+	if err != nil {
+		http.Error(response, err.Error(), http.StatusBadRequest)
+	} else {
+		
+	}
 }
 
 func getPassword(response http.ResponseWriter, request *http.Request) {
