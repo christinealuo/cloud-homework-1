@@ -277,6 +277,9 @@ func deleteUser(response http.ResponseWriter, request *http.Request) {
 	err := json.NewDecoder(request.Body).Decode(&credentials)
 	if err != nil {
 		http.Error(response, err.Error(), http.StatusBadRequest)
+	} else if credentials.Username == "" || credentials.Password == "" {
+		http.Error(response, "", http.StatusBadRequest)
+	}
 	} else {
 		toDelete := -1
 		for i := 0; i < len(globalCredentials); i++ {
