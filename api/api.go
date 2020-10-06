@@ -288,7 +288,7 @@ func deleteUser(response http.ResponseWriter, request *http.Request) {
 		}
 
 		if toDelete != -1 {
-			globalCredentials = append(globalCredentials[:toDelete], globalCredentials[toDelete + 1:])
+			globalCredentials = append(globalCredentials[:toDelete], globalCredentials[toDelete + 1:]...)
 		} else {
 			http.Error(response, "", http.StatusBadRequest)
 		}
