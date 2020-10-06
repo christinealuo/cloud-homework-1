@@ -234,6 +234,20 @@ func updatePassword(response http.ResponseWriter, request *http.Request) {
 	*/
 
 	/*YOUR CODE HERE*/
+	credentials := Credentials{}
+	err := json.NewDecoder(request.Body).Decode(&credentials)
+	if err != nil {
+		http.Error(response, err.Error(), http.StatusBadRequest)
+	} else {
+		for i := 0; i < len(globalCredentials); i++ {
+			if globalCredentials[i].Username == credentials.Username {
+				globalCredentials[i].Password = credentials.Password
+				// fmt.Fprintf(response, globalCredentials[i].Password)
+				return
+			}
+		}
+		http.Error(response, "", http.StatusBadRequest)
+	}
 }
 
 func deleteUser(response http.ResponseWriter, request *http.Request) {
