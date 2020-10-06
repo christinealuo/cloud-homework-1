@@ -168,7 +168,7 @@ func getIndex(response http.ResponseWriter, request *http.Request) {
 		http.Error(response, "", http.StatusBadRequest)
 		return
 	} else {
-		for i:=0; i < len(globalCredentials); i++ {
+		for i := 0; i < len(globalCredentials); i++ {
 			if globalCredentials[i].Username == credentials.Username {
 				fmt.Fprintf(response, strconv.Itoa(i))
 				return
@@ -196,6 +196,19 @@ func getPassword(response http.ResponseWriter, request *http.Request) {
 	*/
 
 	/*YOUR CODE HERE*/
+	credentials := Credentials{}
+	err := json.NewDecoder(request.Body).Decode(&credentials)
+	if err != nil {
+		http.Error(response, err.Error(), http.StatusBadRequest)
+	} else {
+		for i := 0; i < len(globalCredentials); i++ {
+			if globalCredentials[i].Username == credentials.Username {
+				fmt.Fprintf(response, globalCredentials[i].Password)
+				return
+			}
+		}
+		http.Error(response, "", http.StatusBadRequest)
+	}
 }
 
 
