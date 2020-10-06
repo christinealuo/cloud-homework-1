@@ -5,6 +5,7 @@ import (
 	"github.com/gorilla/mux"
 	"fmt"
 	"encoding/json"
+	"strconv"
 )
 
 
@@ -162,8 +163,14 @@ func getIndex(response http.ResponseWriter, request *http.Request) {
 	err := json.NewDecoder(request.Body).Decode(&credentials)
 	if err != nil {
 		http.Error(response, err.Error(), http.StatusBadRequest)
+	} else if credentials.Username == "" {
+		http.Error(response, "", http.StatusBadRequest)
 	} else {
-
+		for i:=0; i < len(globalCredentials); i++ {
+			if globalCredentials[i].Username == credentials.Username && globalCredentials[i].Password == credentials.Password {
+				fmt.Fprintf(response, strconv.Itoa(i))
+			}
+		}
 	}
 }
 
