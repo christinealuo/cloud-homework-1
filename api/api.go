@@ -127,10 +127,13 @@ func signup(response http.ResponseWriter, request *http.Request) {
 	err := json.NewDecoder(request.Body).Decode(&credentials)
 	if err != nil {
 		http.Error(response, err.Error(), http.StatusBadRequest)
+	} else if credentials.Username == "" || credentials.Password == "" {
+		http.Error(response, "", http.StatusBadRequest)
 	} else {
 		globalCredentials = append(globalCredentials, credentials)
 		response.WriteHeader(http.StatusCreated)
 	}
+	return
 }
 
 func getIndex(response http.ResponseWriter, request *http.Request) {
