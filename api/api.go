@@ -169,7 +169,7 @@ func getIndex(response http.ResponseWriter, request *http.Request) {
 		return
 	} else {
 		for i:=0; i < len(globalCredentials); i++ {
-			if globalCredentials[i].Username == credentials.Username && globalCredentials[i].Password == credentials.Password {
+			if globalCredentials[i].Username == credentials.Username {
 				fmt.Fprintf(response, strconv.Itoa(i))
 				return
 			}
