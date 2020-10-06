@@ -95,7 +95,7 @@ func getJSON(response http.ResponseWriter, request *http.Request) {
 	if err != nil {
 		http.Error(response, err.Error(), http.StatusBadRequest)
 	} else {
-		fmt.Fprintf(response, credentials.Username)
+		fmt.Fprintf(response, credentials.Username + "\n")
 		fmt.Fprintf(response, credentials.Password)
 	}
 }
@@ -152,7 +152,7 @@ func getIndex(response http.ResponseWriter, request *http.Request) {
 	if err != nil {
 		http.Error(response, err.Error(), http.StatusBadRequest)
 	} else {
-		
+
 	}
 }
 
