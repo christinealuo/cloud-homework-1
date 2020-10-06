@@ -129,7 +129,7 @@ func signup(response http.ResponseWriter, request *http.Request) {
 		http.Error(response, err.Error(), http.StatusBadRequest)
 	} else {
 		globalCredentials = append(globalCredentials, credentials)
-		// response.WriteHeader(http.StatusCreated)
+		response.WriteHeader(http.StatusCreated)
 	}
 }
 
